@@ -447,6 +447,40 @@ public class SubModule : MBSubModuleBase
 InformationManager.DisplayMessage(new InformationMessage("Debug: value = " + value));
 ```
 
+4. **Better Exception Window**: Install [Better Exception Window](https://www.nexusmods.com/mountandblade2bannerlord/mods/404) mod to see which mod caused a crash.
+
+## Important Paths
+
+### Logs & Crashes
+
+| What | Path |
+|------|------|
+| **Crash dumps** | `C:\ProgramData\Mount and Blade II Bannerlord\crashes` |
+| **RGL logs** | `C:\ProgramData\Mount and Blade II Bannerlord\logs` |
+| **Log files** | `rgl_log_XXXX.txt`, `rgl_log_errors_XXXX.txt` |
+| **Mod logs** | `C:\Users\USERNAME\Documents\Mount and Blade II Bannerlord\Configs\ModLogs` |
+| **Harmony log** | `C:\Users\USERNAME\AppData\Local\Mount and Blade II Bannerlord\harmony.log.txt` |
+
+### Game Installation
+
+| Source | Typical Path |
+|--------|--------------|
+| **Steam** | `C:\Program Files (x86)\Steam\steamapps\common\Mount & Blade II Bannerlord` |
+| **Steam (other drive)** | `D:\SteamLibrary\steamapps\common\Mount & Blade II Bannerlord` |
+| **GOG** | `C:\GOG Games\Mount & Blade II Bannerlord` |
+| **Epic** | `C:\Program Files\Epic Games\Mount & Blade II Bannerlord` |
+
+**Quick way to find:** Steam → Right-click game → Manage → Browse local files
+
+### Other Important Folders
+
+| What | Path |
+|------|------|
+| **Saves** | `C:\Users\USERNAME\Documents\Mount and Blade II Bannerlord\Game Saves\Native` |
+| **Configs** | `C:\Users\USERNAME\Documents\Mount and Blade II Bannerlord\Configs` |
+| **Mods (manual)** | `...\Mount & Blade II Bannerlord\Modules` |
+| **Mods (Workshop)** | `...\Steam\steamapps\workshop\content\261550` |
+
 ## Common Pitfalls
 
 1. **Wrong Load Order**: Harmony must load FIRST, then ButterLib, UIExtenderEx, MCM
