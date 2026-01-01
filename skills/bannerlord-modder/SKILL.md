@@ -525,6 +525,69 @@ This skill includes detailed guides in `references/`:
 - `SubModule.xml.template` - Module manifest
 - `ModProject.csproj.template` - Project file with NuGet
 
+## Exploring Game Code & API
+
+### Decompiling Game DLLs
+
+Use **dnSpy** or **ILSpy** to explore game source code:
+
+1. Download [dnSpy](https://github.com/dnSpy/dnSpy/releases) or [ILSpy](https://github.com/icsharpcode/ILSpy/releases)
+2. Open game DLLs from `bin\Win64_Shipping_Client\` folder
+
+### Key Game DLLs
+
+| DLL | Contents |
+|-----|----------|
+| `TaleWorlds.CampaignSystem.dll` | Campaign, Heroes, Settlements, Clans, Kingdoms, CampaignBehaviors, GameModels |
+| `TaleWorlds.Core.dll` | Core types, Items, Characters, Game |
+| `TaleWorlds.MountAndBlade.dll` | MBSubModuleBase, Mission, Agent, battles |
+| `TaleWorlds.Localization.dll` | TextObject, localization |
+| `TaleWorlds.Library.dll` | MBList, MBReadOnlyList, Vec2, Vec3, Mat3 |
+| `TaleWorlds.ObjectSystem.dll` | MBObjectManager, MBGUID |
+| `TaleWorlds.SaveSystem.dll` | SaveableTypeDefiner, serialization |
+| `TaleWorlds.GauntletUI*.dll` | UI system, Widgets, ViewModels |
+| `SandBox.dll` | Sandbox campaign behaviors, models |
+| `StoryMode.dll` | Main quest, story behaviors |
+
+### How to Find What to Patch
+
+1. **Search by behavior**: In dnSpy, search (Ctrl+Shift+K) for keywords like "PartySpeed", "Damage", "XP"
+2. **Find GameModels**: Search for classes ending in `Model` - these calculate game values
+3. **Find CampaignBehaviors**: Search for `: CampaignBehaviorBase` to see how game reacts to events
+4. **Trace from UI**: Find UI text → find where it's used → trace back to logic
+
+### Common Classes to Explore
+
+```
+# Campaign
+Campaign.Current                    - Current campaign instance
+Hero.MainHero                       - Player hero
+Hero.All                            - All heroes
+Settlement.All                      - All settlements
+Clan.PlayerClan                     - Player clan
+MobileParty.MainParty              - Player party
+
+# Models (in TaleWorlds.CampaignSystem.GameComponents)
+DefaultPartySpeedCalculatingModel   - Party movement speed
+DefaultCharacterDevelopmentModel    - XP and leveling
+DefaultCombatSimulationModel        - Auto-resolve battles
+DefaultDamageParticleModel          - Combat damage
+DefaultPartyWageModel               - Troop wages
+DefaultSettlementProsperityModel    - Settlement growth
+
+# Behaviors (in TaleWorlds.CampaignSystem.CampaignBehaviors)
+RecruitmentCampaignBehavior         - Troop recruitment
+PrisonerReleaseCampaignBehavior     - Prisoner management
+PartiesBuyFoodCampaignBehavior      - Food purchasing AI
+```
+
+### Quick API Lookup Tips
+
+1. **Find method signature**: Before patching, decompile target method to see exact parameters
+2. **Check base class**: Many models inherit from Default*Model - override only what you need
+3. **Find events**: Search `CampaignEvents.` in dnSpy to see all available events
+4. **Explore AccessTools**: `AccessTools.Field()`, `AccessTools.Method()` for private members
+
 ## Resources
 
 - [Community Docs](https://docs.bannerlordmodding.com/)
