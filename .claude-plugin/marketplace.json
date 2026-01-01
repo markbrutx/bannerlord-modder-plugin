@@ -1,0 +1,12 @@
+{
+  "name": "bannerlord-modder-marketplace",
+  "description": "Plugins for Mount & Blade II: Bannerlord modding",
+  "plugins": [
+    {
+      "name": "bannerlord-modder",
+      "version": "1.0.0",
+      "description": "Create Bannerlord mods using Harmony, ButterLib, MCM, and UIExtenderEx",
+      "path": "."
+    }
+  ]
+}
