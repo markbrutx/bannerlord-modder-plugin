@@ -7,6 +7,8 @@ description: Create Mount & Blade II Bannerlord mods using Harmony, ButterLib, M
 
 Create professional Bannerlord mods using the BUTR modding stack.
 
+**Current game version: v1.2.x/v1.3.13** (as of January 2026)
+
 ## Core Dependencies (Load Order)
 
 1. **Bannerlord.Harmony** - Runtime patching library
