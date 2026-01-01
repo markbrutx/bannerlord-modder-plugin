@@ -1,11 +1,13 @@
 {
   "name": "bannerlord-modder",
   "version": "1.0.0",
-  "description": "Create Mount & Blade II Bannerlord mods using Harmony, ButterLib, MCM (Mod Configuration Menu), and UIExtenderEx. Use when creating Bannerlord mods, patching game methods with Harmony (Prefix/Postfix/Transpiler), adding mod settings via MCM, creating CampaignBehaviors, GameModels, SubModule.xml configuration, or any C# modding for Bannerlord.",
-  "author": "",
+  "description": "Create Mount & Blade II Bannerlord mods using Harmony, ButterLib, MCM (Mod Configuration Menu), and UIExtenderEx.",
+  "author": {
+    "name": "markbrutx"
+  },
   "repository": "https://github.com/markbrutx/bannerlord-modder-plugin",
   "license": "MIT",
   "skills": [
-    "bannerlord-modder"
+    "./skills/bannerlord-modder"
   ]
 }
