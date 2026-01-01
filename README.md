@@ -18,7 +18,7 @@ A Claude Code plugin that helps you create professional Mount & Blade II: Banner
 ### Option 1: Install via Claude Code CLI
 
 ```bash
-claude plugin install github:YOUR_USERNAME/bannerlord-modder-plugin
+claude plugin install github:markbrutx/bannerlord-modder-plugin
 ```
 
 ### Option 2: Clone to plugins directory
@@ -28,7 +28,7 @@ claude plugin install github:YOUR_USERNAME/bannerlord-modder-plugin
 cd ~/.claude/plugins
 
 # Clone the repository
-git clone https://github.com/YOUR_USERNAME/bannerlord-modder-plugin.git
+git clone https://github.com/markbrutx/bannerlord-modder-plugin.git
 ```
 
 ### Option 3: Local installation (for development)
