@@ -1,0 +1,95 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <LangVersion>9.0</LangVersion>
+    <Nullable>enable</Nullable>
+    <AssemblyName>${ModId}</AssemblyName>
+    <RootNamespace>${ModNamespace}</RootNamespace>
+    <Version>${Version}</Version>
+    <Authors>${Author}</Authors>
+    <Description>${ModDescription}</Description>
+    
+    <!-- Output directly to Bannerlord Modules folder -->
+    <GameFolder>C:\Program Files (x86)\Steam\steamapps\common\Mount &amp; Blade II Bannerlord</GameFolder>
+    <ModuleFolder>$(GameFolder)\Modules\${ModId}</ModuleFolder>
+    <OutputPath>$(ModuleFolder)\bin\Win64_Shipping_Client\</OutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    
+    <!-- Debugging -->
+    <DebugType>portable</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <!-- NuGet Dependencies - ALWAYS use IncludeAssets="compile" -->
+  <ItemGroup>
+    <PackageReference Include="Lib.Harmony" Version="2.3.3" IncludeAssets="compile"/>
+    <PackageReference Include="Bannerlord.ButterLib" Version="2.9.0" IncludeAssets="compile"/>
+    <PackageReference Include="Bannerlord.MCM" Version="5.10.0" IncludeAssets="compile"/>
+    <PackageReference Include="Bannerlord.UIExtenderEx" Version="2.12.0" IncludeAssets="compile"/>
+  </ItemGroup>
+
+  <!-- TaleWorlds References - Adjust paths to match your installation -->
+  <ItemGroup>
+    <Reference Include="TaleWorlds.Core">
+      <HintPath>$(GameFolder)\bin\Win64_Shipping_Client\TaleWorlds.Core.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="TaleWorlds.Library">
+      <HintPath>$(GameFolder)\bin\Win64_Shipping_Client\TaleWorlds.Library.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="TaleWorlds.Localization">
+      <HintPath>$(GameFolder)\bin\Win64_Shipping_Client\TaleWorlds.Localization.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="TaleWorlds.MountAndBlade">
+      <HintPath>$(GameFolder)\bin\Win64_Shipping_Client\TaleWorlds.MountAndBlade.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="TaleWorlds.CampaignSystem">
+      <HintPath>$(GameFolder)\bin\Win64_Shipping_Client\TaleWorlds.CampaignSystem.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="TaleWorlds.Engine">
+      <HintPath>$(GameFolder)\bin\Win64_Shipping_Client\TaleWorlds.Engine.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="TaleWorlds.InputSystem">
+      <HintPath>$(GameFolder)\bin\Win64_Shipping_Client\TaleWorlds.InputSystem.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="TaleWorlds.ObjectSystem">
+      <HintPath>$(GameFolder)\bin\Win64_Shipping_Client\TaleWorlds.ObjectSystem.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="TaleWorlds.SaveSystem">
+      <HintPath>$(GameFolder)\bin\Win64_Shipping_Client\TaleWorlds.SaveSystem.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    
+    <!-- Module references -->
+    <Reference Include="SandBox">
+      <HintPath>$(GameFolder)\Modules\SandBox\bin\Win64_Shipping_Client\SandBox.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="StoryMode">
+      <HintPath>$(GameFolder)\Modules\StoryMode\bin\Win64_Shipping_Client\StoryMode.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+  <!-- Copy SubModule.xml to output -->
+  <ItemGroup>
+    <None Update="SubModule.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>..\..\..\SubModule.xml</TargetPath>
+    </None>
+  </ItemGroup>
+
+  <!-- Post-build: Copy SubModule.xml to correct location -->
+  <Target Name="CopySubModuleXml" AfterTargets="Build">
+    <Copy SourceFiles="SubModule.xml" DestinationFolder="$(ModuleFolder)"/>
+  </Target>
+
+</Project>

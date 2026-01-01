@@ -1,0 +1,67 @@
+using HarmonyLib;
+using TaleWorlds.Core;
+using TaleWorlds.Library;
+using TaleWorlds.Localization;
+using TaleWorlds.MountAndBlade;
+using TaleWorlds.CampaignSystem;
+
+namespace ${ModNamespace}
+{
+    public class SubModule : MBSubModuleBase
+    {
+        public const string ModId = "${ModId}";
+        public const string ModName = "${ModName}";
+        public const string HarmonyId = "com.${Author}.${ModId}";
+        
+        private Harmony? _harmony;
+
+        protected override void OnSubModuleLoad()
+        {
+            base.OnSubModuleLoad();
+            
+            _harmony = new Harmony(HarmonyId);
+            _harmony.PatchAll();
+            
+            InformationManager.DisplayMessage(
+                new InformationMessage($"{ModName} loaded successfully!", Colors.Green));
+        }
+
+        protected override void OnSubModuleUnloaded()
+        {
+            base.OnSubModuleUnloaded();
+            _harmony?.UnpatchAll(HarmonyId);
+        }
+
+        protected override void OnGameStart(Game game, IGameStarter starter)
+        {
+            base.OnGameStart(game, starter);
+            
+            if (game.GameType is Campaign && starter is CampaignGameStarter campaignStarter)
+            {
+                // Add campaign behaviors
+                campaignStarter.AddBehavior(new ${ModId}Behavior());
+                
+                // Add custom models (uncomment and create as needed)
+                // campaignStarter.AddModel(new Custom${ModId}Model());
+            }
+        }
+
+        protected override void OnBeforeInitialModuleScreenSetAsRoot()
+        {
+            base.OnBeforeInitialModuleScreenSetAsRoot();
+            // Called before main menu appears - good for UI setup
+        }
+
+        public override void OnGameLoaded(Game game, object initializerObject)
+        {
+            base.OnGameLoaded(game, initializerObject);
+            // Called when loading a saved game
+        }
+        
+        public override void OnNewGameCreated(Game game, object initializerObject)
+        {
+            base.OnNewGameCreated(game, initializerObject);
+            // Called when starting a new game
+        }
+    }
+}

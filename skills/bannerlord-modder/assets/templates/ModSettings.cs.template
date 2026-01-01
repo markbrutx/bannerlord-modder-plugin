@@ -1,0 +1,104 @@
+using MCM.Abstractions.Attributes;
+using MCM.Abstractions.Attributes.v2;
+using MCM.Abstractions.Base.Global;
+
+namespace ${ModNamespace}
+{
+    internal sealed class ${ModId}Settings : AttributeGlobalSettings<${ModId}Settings>
+    {
+        public override string Id => "${ModId}_Settings_v1";
+        public override string DisplayName => "${ModName} Settings";
+        public override string FolderName => "${ModId}";
+        public override string FormatType => "json2";
+
+        #region General Settings
+        
+        [SettingPropertyGroup("General", GroupOrder = 0)]
+        [SettingPropertyBool("Enable Mod", 
+            Order = 0, 
+            RequireRestart = false,
+            HintText = "Toggle all mod features on/off.")]
+        public bool EnableMod { get; set; } = true;
+
+        [SettingPropertyGroup("General")]
+        [SettingPropertyBool("Show Notifications", 
+            Order = 1, 
+            RequireRestart = false,
+            HintText = "Display in-game notifications.")]
+        public bool ShowNotifications { get; set; } = true;
+
+        [SettingPropertyGroup("General")]
+        [SettingPropertyBool("Enable Debug Mode", 
+            Order = 99, 
+            RequireRestart = false,
+            HintText = "Show debug messages in log.")]
+        public bool DebugMode { get; set; } = false;
+
+        #endregion
+
+        #region Gameplay Settings
+
+        [SettingPropertyGroup("Gameplay", GroupOrder = 1)]
+        [SettingPropertyFloatingInteger("Damage Multiplier", 
+            0.5f, 3.0f, 
+            "#0.0x",
+            Order = 0,
+            HintText = "Adjust damage dealt by player.")]
+        public float DamageMultiplier { get; set; } = 1.0f;
+
+        [SettingPropertyGroup("Gameplay")]
+        [SettingPropertyInteger("Experience Bonus (%)", 
+            0, 200, 
+            Order = 1,
+            HintText = "Bonus experience percentage.")]
+        public int ExperienceBonus { get; set; } = 0;
+
+        [SettingPropertyGroup("Gameplay")]
+        [SettingPropertyFloatingInteger("Party Speed Modifier", 
+            0.5f, 2.0f, 
+            "#0%",
+            Order = 2,
+            HintText = "Modify party movement speed.")]
+        public float PartySpeedModifier { get; set; } = 1.0f;
+
+        #endregion
+
+        #region Economy Settings
+
+        [SettingPropertyGroup("Economy", GroupOrder = 2)]
+        [SettingPropertyInteger("Gold Multiplier", 
+            1, 10, 
+            Order = 0,
+            HintText = "Multiply gold rewards.")]
+        public int GoldMultiplier { get; set; } = 1;
+
+        [SettingPropertyGroup("Economy")]
+        [SettingPropertyInteger("Trade Penalty Reduction (%)", 
+            0, 100, 
+            Order = 1,
+            HintText = "Reduce trade penalties.")]
+        public int TradePenaltyReduction { get; set; } = 0;
+
+        #endregion
+
+        #region Helper Methods
+
+        /// <summary>
+        /// Check if mod is enabled before applying effects
+        /// </summary>
+        public static bool IsEnabled => Instance?.EnableMod ?? false;
+
+        /// <summary>
+        /// Log debug message if debug mode is enabled
+        /// </summary>
+        public static void DebugLog(string message)
+        {
+            if (Instance?.DebugMode == true)
+            {
+                TaleWorlds.Library.Debug.Print($"[${ModId}] {message}");
+            }
+        }
+
+        #endregion
+    }
+}

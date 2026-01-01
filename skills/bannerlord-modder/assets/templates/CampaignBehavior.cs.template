@@ -1,0 +1,199 @@
+using System.Collections.Generic;
+using TaleWorlds.CampaignSystem;
+using TaleWorlds.CampaignSystem.Party;
+using TaleWorlds.CampaignSystem.Settlements;
+using TaleWorlds.Core;
+using TaleWorlds.Library;
+using TaleWorlds.Localization;
+using TaleWorlds.SaveSystem;
+
+namespace ${ModNamespace}
+{
+    /// <summary>
+    /// Campaign behavior for ${ModName}
+    /// Handles game events and persists data across saves
+    /// </summary>
+    public class ${ModId}Behavior : CampaignBehaviorBase
+    {
+        #region Persisted Data
+        
+        // Data that will be saved/loaded with the game
+        private Dictionary<string, int> _trackedValues = new();
+        private int _dayCounter = 0;
+        
+        #endregion
+
+        #region Event Registration
+
+        public override void RegisterEvents()
+        {
+            // Time-based events
+            CampaignEvents.DailyTickEvent.AddNonSerializedListener(this, OnDailyTick);
+            CampaignEvents.HourlyTickEvent.AddNonSerializedListener(this, OnHourlyTick);
+            
+            // Battle events
+            CampaignEvents.MapEventEnded.AddNonSerializedListener(this, OnMapEventEnded);
+            
+            // Hero events
+            CampaignEvents.HeroKilledEvent.AddNonSerializedListener(this, OnHeroKilled);
+            CampaignEvents.HeroPrisonerTaken.AddNonSerializedListener(this, OnHeroPrisonerTaken);
+            CampaignEvents.HeroLevelledUp.AddNonSerializedListener(this, OnHeroLevelledUp);
+            
+            // Settlement events
+            CampaignEvents.OnSettlementOwnerChangedEvent.AddNonSerializedListener(this, OnSettlementOwnerChanged);
+            CampaignEvents.SettlementEntered.AddNonSerializedListener(this, OnSettlementEntered);
+            
+            // Party events
+            CampaignEvents.MobilePartyCreated.AddNonSerializedListener(this, OnPartyCreated);
+            
+            // Game state events
+            CampaignEvents.OnSessionLaunchedEvent.AddNonSerializedListener(this, OnSessionLaunched);
+        }
+
+        #endregion
+
+        #region Event Handlers
+
+        private void OnDailyTick()
+        {
+            if (!${ModId}Settings.IsEnabled) return;
+            
+            _dayCounter++;
+            
+            // Daily processing logic
+            foreach (var hero in Hero.AllAliveHeroes)
+            {
+                // Process each hero daily
+            }
+        }
+
+        private void OnHourlyTick()
+        {
+            if (!${ModId}Settings.IsEnabled) return;
+            
+            // Hourly processing logic
+        }
+
+        private void OnMapEventEnded(MapEvent mapEvent)
+        {
+            if (!${ModId}Settings.IsEnabled) return;
+            
+            if (mapEvent.IsPlayerMapEvent)
+            {
+                bool playerWon = mapEvent.WinningSide == mapEvent.PlayerSide;
+                
+                if (playerWon)
+                {
+                    // Handle player victory
+                    NotifyPlayer("Victory!", Colors.Green);
+                }
+            }
+        }
+
+        private void OnHeroKilled(Hero victim, Hero killer, 
+            KillCharacterAction.KillCharacterActionDetail detail, bool showNotification)
+        {
+            if (!${ModId}Settings.IsEnabled) return;
+            
+            if (victim.Clan == Clan.PlayerClan)
+            {
+                NotifyPlayer($"{victim.Name} has fallen!", Colors.Red);
+            }
+        }
+
+        private void OnHeroPrisonerTaken(PartyBase captor, Hero prisoner)
+        {
+            if (!${ModId}Settings.IsEnabled) return;
+            
+            if (prisoner.Clan == Clan.PlayerClan)
+            {
+                NotifyPlayer($"{prisoner.Name} has been captured!", Colors.Yellow);
+            }
+        }
+
+        private void OnHeroLevelledUp(Hero hero, bool shouldNotify)
+        {
+            if (!${ModId}Settings.IsEnabled) return;
+            
+            if (hero == Hero.MainHero)
+            {
+                // Apply level up bonuses
+            }
+        }
+
+        private void OnSettlementOwnerChanged(Settlement settlement, bool openToClaim,
+            Hero newOwner, Hero oldOwner, Hero capturerHero,
+            ChangeOwnerOfSettlementAction.ChangeOwnerOfSettlementDetail detail)
+        {
+            if (!${ModId}Settings.IsEnabled) return;
+            
+            if (newOwner == Hero.MainHero)
+            {
+                NotifyPlayer($"You now control {settlement.Name}!", Colors.Green);
+            }
+        }
+
+        private void OnSettlementEntered(MobileParty party, Settlement settlement, Hero hero)
+        {
+            if (!${ModId}Settings.IsEnabled) return;
+            
+            if (party?.IsMainParty == true)
+            {
+                // Player entered settlement
+            }
+        }
+
+        private void OnPartyCreated(MobileParty party)
+        {
+            if (!${ModId}Settings.IsEnabled) return;
+            
+            // Track or modify newly created parties
+        }
+
+        private void OnSessionLaunched(CampaignGameStarter campaignGameStarter)
+        {
+            // Called when campaign is fully loaded
+            // Safe to add menus, dialogs here
+            
+            ${ModId}Settings.DebugLog("Session launched, mod initialized");
+        }
+
+        #endregion
+
+        #region Save/Load
+
+        public override void SyncData(IDataStore dataStore)
+        {
+            // Serialize/deserialize persisted data
+            dataStore.SyncData("_trackedValues", ref _trackedValues);
+            dataStore.SyncData("_dayCounter", ref _dayCounter);
+            
+            // Ensure dictionary isn't null after load
+            _trackedValues ??= new Dictionary<string, int>();
+        }
+
+        #endregion
+
+        #region Helper Methods
+
+        private void NotifyPlayer(string message, Color? color = null)
+        {
+            if (${ModId}Settings.Instance?.ShowNotifications != true) return;
+            
+            InformationManager.DisplayMessage(
+                new InformationMessage(message, color ?? Colors.White));
+        }
+
+        public void TrackValue(string key, int value)
+        {
+            _trackedValues[key] = value;
+        }
+
+        public int GetTrackedValue(string key, int defaultValue = 0)
+        {
+            return _trackedValues.TryGetValue(key, out var value) ? value : defaultValue;
+        }
+
+        #endregion
+    }
+}

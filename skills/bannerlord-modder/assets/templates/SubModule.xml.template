@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Module>
+  <Name value="${ModName}"/>
+  <Id value="${ModId}"/>
+  <Version value="v${Version}"/>
+  <SingleplayerModule value="true"/>
+  <MultiplayerModule value="false"/>
+  <DefaultModule value="false"/>
+  <ModuleCategory value="Singleplayer"/>
+  <ModuleType value="Community"/>
+  
+  <DependedModules>
+    <!-- Core BUTR Dependencies - Must be in this order -->
+    <DependedModule Id="Bannerlord.Harmony" DependentVersion="v2.3.0" Optional="false"/>
+    <DependedModule Id="Bannerlord.ButterLib" DependentVersion="v2.8.0" Optional="false"/>
+    <DependedModule Id="Bannerlord.UIExtenderEx" DependentVersion="v2.8.0" Optional="false"/>
+    <DependedModule Id="Bannerlord.MBOptionScreen" DependentVersion="v5.10.0" Optional="false"/>
+    
+    <!-- TaleWorlds Base Modules -->
+    <DependedModule Id="Native" DependentVersion="e1.0.0"/>
+    <DependedModule Id="SandBoxCore" DependentVersion="e1.0.0"/>
+    <DependedModule Id="Sandbox" DependentVersion="e1.0.0"/>
+    <DependedModule Id="CustomBattle" DependentVersion="e1.0.0"/>
+    <DependedModule Id="StoryMode" DependentVersion="e1.0.0"/>
+  </DependedModules>
+  
+  <!-- Load after these mods if present (optional soft dependencies) -->
+  <ModulesToLoadAfterThis/>
+  
+  <SubModules>
+    <SubModule>
+      <Name value="${ModId}"/>
+      <DLLName value="${ModId}.dll"/>
+      <SubModuleClassType value="${ModNamespace}.SubModule"/>
+      <Tags>
+        <Tag key="DedicatedServerType" value="none"/>
+        <Tag key="IsNoRenderModeElement" value="false"/>
+      </Tags>
+    </SubModule>
+  </SubModules>
+  
+  <!-- XML data files (uncomment and customize as needed) -->
+  <!--
+  <Xmls>
+    <XmlNode>
+      <XmlName id="Items" path="custom_items"/>
+    </XmlNode>
+    <XmlNode>
+      <XmlName id="NPCCharacters" path="custom_characters"/>
+    </XmlNode>
+    <XmlNode>
+      <XmlName id="SPCultures" path="custom_cultures"/>
+    </XmlNode>
+  </Xmls>
+  -->
+</Module>
