@@ -490,6 +490,25 @@ InformationManager.DisplayMessage(new InformationMessage("Debug: value = " + val
 3. **Patching Models in OnSubModuleLoad**: Some game systems aren't ready. Use `OnGameStart`
 4. **Forgetting Null Checks**: Always check `ModSettings.Instance` for null
 5. **Not handling save/load**: Implement `SyncData` in CampaignBehavior for persistence
+6. **Mod not updating after rebuild**: See below
+
+### Reinstalling Mod After Rebuild
+
+If your mod doesn't work after changes and you need to copy it to the game folder again:
+
+1. **Increment version** in `SubModule.xml` (e.g., `v1.0.0` → `v1.0.1`)
+2. **Delete the old mod folder** in `Modules/` completely
+3. **Copy the new build** to `Modules/`
+
+```xml
+<!-- Before -->
+<Version value="v1.0.0"/>
+
+<!-- After rebuild -->
+<Version value="v1.0.1"/>
+```
+
+**Why?** The game caches mod info. Without version bump + folder delete, it may load old DLLs or cached data.
 
 ## Quick Reference: Key Namespaces
 
