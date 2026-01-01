@@ -6,7 +6,7 @@
   "plugins": [
     {
       "name": "bannerlord-modder",
-      "source": ".",
+      "source": "./",
       "description": "Create Bannerlord mods using Harmony, ButterLib, MCM, and UIExtenderEx"
     }
   ]
