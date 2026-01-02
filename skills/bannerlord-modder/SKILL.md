@@ -555,6 +555,39 @@ Use **dnSpy** or **ILSpy** to explore game source code:
 1. Download [dnSpy](https://github.com/dnSpy/dnSpy/releases) or [ILSpy](https://github.com/icsharpcode/ILSpy/releases)
 2. Open game DLLs from `bin\Win64_Shipping_Client\` folder
 
+### Decompiling with ilspycmd (CLI)
+
+For command-line decompilation (useful for searching code with grep/findstr):
+
+**Setup (one time):**
+```bash
+dotnet tool install -g ilspycmd
+```
+
+**Decompile DLL to readable C# project:**
+```bash
+ilspycmd "<path_to_dll>" -p -o "<output_folder>"
+```
+
+**Example: Decompile SandBox.GauntletUI to find UI movie names and ViewModels:**
+```bash
+ilspycmd "D:\SteamLibrary\steamapps\common\Mount & Blade II Bannerlord\Modules\SandBox\bin\Win64_Shipping_Client\SandBox.GauntletUI.dll" -p -o "./.wb/SandBox.GauntletUI"
+```
+
+**Search decompiled code for patterns:**
+```bash
+# Windows
+findstr /s /i "LoadMovie" .wb\*.cs
+
+# Linux/Mac
+grep -r "LoadMovie" .wb/
+```
+
+**Commonly decompiled DLLs for UI modding:**
+- `SandBox.GauntletUI.dll` - Sandbox UI screens (encyclopedia, party, inventory)
+- `StoryMode.GauntletUI.dll` - Story mode UI
+- `TaleWorlds.MountAndBlade.GauntletUI.dll` - Core game UI (battle, missions)
+
 ### Key Game DLLs
 
 | DLL | Contents |
